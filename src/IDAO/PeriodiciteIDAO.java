@@ -1,5 +1,6 @@
 package IDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import DAO.DAO;
@@ -8,4 +9,6 @@ import MySQLDAO.MySQLPeriodiciteDAO;
 
 public interface PeriodiciteIDAO<Periodicite>  extends DAO<Periodicite>{
 	List<Periodicite> getByLib(String libelle);
+	ArrayList<Periodicite> findAll();
+
 }

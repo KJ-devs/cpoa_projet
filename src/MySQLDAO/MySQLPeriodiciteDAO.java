@@ -105,6 +105,15 @@ public class MySQLPeriodiciteDAO implements PeriodiciteIDAO<Periodicite> {
 
 	@Override
 	public List<Periodicite> getAll() {
+		List<Periodicite> ListePeriodicite = new ArrayList<>();
+
+		return ListePeriodicite;
+	}
+
+
+
+	@Override
+	public ArrayList<Periodicite> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

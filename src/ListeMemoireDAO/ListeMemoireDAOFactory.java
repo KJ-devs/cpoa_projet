@@ -1,7 +1,7 @@
 package ListeMemoireDAO;
 
 
-import FactoryDAO.DAOFactory;
+import DAOFactory.DAOFactory;
 import IDAO.AbonnementIDAO;
 import IDAO.ClientIDAO;
 import IDAO.PeriodiciteIDAO;
@@ -28,4 +28,4 @@ public class ListeMemoireDAOFactory extends DAOFactory {
 	    public RevueIDAO getRevueIDAO() {
 	        return ListeMemoireRevueDAO.getInstance();
 	    }
-}
+	}

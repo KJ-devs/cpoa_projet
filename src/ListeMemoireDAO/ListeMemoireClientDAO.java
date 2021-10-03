@@ -4,9 +4,12 @@ import java.util.List;
 
 import IDAO.ClientIDAO;
 import Metier.Client;
+import Metier.Periodicite;
+import Metier.Client;
 
 public class ListeMemoireClientDAO implements ClientIDAO<Client> {
 	private static ListeMemoireClientDAO instance;
+	private List<Client> donnees;
 	public static ListeMemoireClientDAO getInstance() {
 		if (instance==null) {
 			instance = new ListeMemoireClientDAO();
@@ -15,24 +18,55 @@ public class ListeMemoireClientDAO implements ClientIDAO<Client> {
 			
 	}
 	@Override
+	public boolean create(Client objet) {
+
+		objet.setId(3);
+		// Ne fonctionne que si l'objet métier est bien fait...
+		while (this.donnees.contains(objet)) {
+
+			objet.setId(objet.getId() + 1);
+		}
+		boolean ok = this.donnees.add(objet);
+		
+		return ok;
+	}
+
+	@Override
+	public boolean update(Client objet) {
+		
+		// Ne fonctionne que si l'objet métier est bien fait...
+		int idx = this.donnees.indexOf(objet);
+		if (idx == -1) {
+			throw new IllegalArgumentException("Tentative de modification d'un objet inexistant");
+		} else {
+			
+			this.donnees.set(idx, objet);
+		}
+		
+		return true;
+	}
+
+
+
+	@Override
+	public boolean delete(Client objet) {
+
+		Client supprime;
+		
+		// Ne fonctionne que si l'objet métier est bien fait...
+		int idx = this.donnees.indexOf(objet);
+		if (idx == -1) {
+			throw new IllegalArgumentException("Tentative de suppression d'un objet inexistant");
+		} else {
+			supprime = this.donnees.remove(idx);
+		}
+		
+		return objet.equals(supprime);
+	}
+	@Override
 	public Client getById(int id) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	@Override
-	public boolean create(Client object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean update(Client object) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean delete(Client object) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 	@Override
 	public List<Client> getByCodePostal(String code_postal) {

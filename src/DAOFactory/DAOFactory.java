@@ -1,4 +1,4 @@
-package FactoryDAO;
+package DAOFactory;
 
 import ListeMemoireDAO.ListeMemoireDAOFactory;
 import MySQLDAO.MySQLDAOFactory;

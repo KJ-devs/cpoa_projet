@@ -1,6 +1,6 @@
 package MySQLDAO;
 
-import FactoryDAO.DAOFactory;
+import DAOFactory.DAOFactory;
 import IDAO.AbonnementIDAO;
 import IDAO.ClientIDAO;
 import IDAO.PeriodiciteIDAO;
