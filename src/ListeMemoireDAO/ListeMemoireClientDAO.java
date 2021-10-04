@@ -1,15 +1,25 @@
 package ListeMemoireDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import IDAO.ClientIDAO;
+import Metier.Abonnement;
 import Metier.Client;
 import Metier.Periodicite;
-import Metier.Client;
+
 
 public class ListeMemoireClientDAO implements ClientIDAO<Client> {
 	private static ListeMemoireClientDAO instance;
+	private List<Client> Client = new ArrayList<>();
 	private List<Client> donnees;
+	private ListeMemoireClientDAO() {
+
+		this.donnees = new ArrayList<Client>();
+
+		this.donnees.add(new Client(null, null, null, null, null, null, null, 0));
+		this.donnees.add(new Client(null, null, null, null, null, null, null, 0));
+	}
 	public static ListeMemoireClientDAO getInstance() {
 		if (instance==null) {
 			instance = new ListeMemoireClientDAO();
@@ -17,6 +27,7 @@ public class ListeMemoireClientDAO implements ClientIDAO<Client> {
 			return instance;
 			
 	}
+	
 	@Override
 	public boolean create(Client objet) {
 
@@ -65,47 +76,79 @@ public class ListeMemoireClientDAO implements ClientIDAO<Client> {
 	}
 	@Override
 	public Client getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		int idx = this.donnees.indexOf(new Client(null,null,null, null,null,null,null,id));
+		if (idx == -1) {
+			throw new IllegalArgumentException("Aucun objet ne possède cet identifiant");
+		} else {
+			return this.donnees.get(idx);
+		}
 	}
 	@Override
 	public List<Client> getByCodePostal(String code_postal) {
-		// TODO Auto-generated method stub
-		return null;
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(code_postal)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
 	}
 	@Override
 	public List<Client> getByNom(String nom) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<Client> getByNo_Rue(String no_rue) {
-		// TODO Auto-generated method stub
-		return null;
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(nom)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
 	}
 	@Override
 	public List<Client> getByPrenom(String prenom) {
-		// TODO Auto-generated method stub
-		return null;
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(prenom)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
 	}
 	@Override
+	public List<Client> getByNo_Rue(String no_rue) {
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(no_rue)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
+	}
+	
+	@Override
 	public List<Client> getByVille(String ville) {
-		// TODO Auto-generated method stub
-		return null;
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(ville)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
 	}
 	@Override
 	public List<Client> getByVoie(String voie) {
-		// TODO Auto-generated method stub
-		return null;
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(voie)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
 	}
 	@Override
 	public List<Client> getByPays(String pays) {
-		// TODO Auto-generated method stub
-		return null;
+		for (Client Cl:donnees ) {
+			if(Cl.getCode_postal().equalsIgnoreCase(pays)) {
+				Client.add(Cl);
+			}
+		}
+		return Client;
 	}
 	@Override
 	public List<Client> getAll() {
-		// TODO Auto-generated method stub
 		return null;
-	}
+}
 }
