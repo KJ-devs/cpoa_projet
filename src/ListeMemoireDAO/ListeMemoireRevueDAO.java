@@ -11,6 +11,7 @@ import DAO.DAO;
 public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 	private static ListeMemoireRevueDAO instance;
 	private List<Revue> donnees;
+	private List<Revue> Revue = new ArrayList<>();
 	public static ListeMemoireRevueDAO getInstance() {
 		if (instance==null) {
 			instance = new ListeMemoireRevueDAO();
@@ -80,7 +81,6 @@ public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 	}
 	@Override
 	public List<Revue> getByDescription(String description) {
-		List<Revue> Revue = new ArrayList<>();
 		for (Revue Rev:donnees ) {
 			if(Rev.getDescription().equalsIgnoreCase(description)) {
 				Revue.add(Rev);
@@ -90,7 +90,6 @@ public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 	}
 	@Override
 	public List<Revue> getByTitre(String titre) {
-		List<Revue> Revue = new ArrayList<>();
 		for (Revue Rev:donnees ) {
 			if(Rev.getDescription().equalsIgnoreCase(titre)) {
 				Revue.add(Rev);
@@ -100,7 +99,6 @@ public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 	}
 	@Override
 	public List<Revue> getByVisuel(String visuel) {
-		List<Revue> Revue = new ArrayList<>();
 		for (Revue Rev:donnees ) {
 			if(Rev.getDescription().equalsIgnoreCase(visuel)) {
 				Revue.add(Rev);
