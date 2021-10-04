@@ -79,7 +79,7 @@ public class ListeMemoirePeriodiciteDAO implements PeriodiciteIDAO<Periodicite> 
 		@Override
 		public Periodicite getById(int id) {
 			// Ne fonctionne que si l'objet métier est bien fait...
-			int idx = this.donnees.indexOf(new Periodicite(id, "test"));
+			int idx = this.donnees.indexOf(new Periodicite(id,null));
 			if (idx == -1) {
 				throw new IllegalArgumentException("Aucun objet ne possède cet identifiant");
 			} else {
