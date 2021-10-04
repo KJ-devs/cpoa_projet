@@ -9,7 +9,7 @@ import Metier.Periodicite;
 public class ListeMemoirePeriodiciteDAO implements PeriodiciteIDAO<Periodicite> {
 
 		private static ListeMemoirePeriodiciteDAO instance;
-
+		private List<Periodicite> Periodicite = new ArrayList<>();
 		private List<Periodicite> donnees;
 
 
@@ -100,7 +100,6 @@ public class ListeMemoirePeriodiciteDAO implements PeriodiciteIDAO<Periodicite> 
 
 		@Override
 		public List<Periodicite> getByLib(String libelle) {
-			List<Periodicite> Periodicite = new ArrayList<>();
 			for (Periodicite Perio:donnees ) {
 				if(Perio.getLibelle().equalsIgnoreCase(libelle)) {
 					Periodicite.add(Perio);
