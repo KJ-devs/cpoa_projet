@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlPeriodicite">
+   <center>
+      <GridPane maxHeight="-Infinity" prefHeight="482.0" prefWidth="835.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Libelle :" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <TextField fx:id="txt_LibellePeriodicite" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Saisir un Libelle" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="creerPeriodicite" mnemonicParsing="false" onAction="#creationPeriodicite" text="Créer" />
+                  <Label fx:id="labelVerifPeriodicite" text="Verification" textFill="RED">
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </center>
+   <top>
+      <FlowPane minWidth="-Infinity" prefHeight="151.0" prefWidth="823.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar fx:id="myMenuBar" minWidth="-Infinity" prefHeight="25.0" prefWidth="811.0">
+               <menus>
+                  <Menu fx:id="menu_gestion" mnemonicParsing="false" text="Gestion">
+                     <items>
+                        <MenuItem fx:id="pageAccueil" mnemonicParsing="false" onAction="#goToPageAccueil" text="Accueil" />
+                        <MenuItem fx:id="pageRevue" mnemonicParsing="false" onAction="#goToPageRevue" text="Revue" />
+                        <MenuItem fx:id="pageClient" mnemonicParsing="false" onAction="#goToPageClient" text="Client" />
+                        <MenuItem fx:id="pageAbonnement" mnemonicParsing="false" onAction="#goToPageAbonnement" text="Abonnement" />
+                        <MenuItem fx:id="pagePeriodicite" mnemonicParsing="false" onAction="#goToPagePeriodicite" text="Periodicite" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <VBox alignment="CENTER" prefHeight="127.0" prefWidth="812.0">
+               <children>
+                  <Label text="Periodicite">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </top>
+   <bottom>
+      <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableViewPeriodicite" onMouseClicked="#selectPeriodicitePutIntoTextField" prefHeight="472.0" prefWidth="480.0">
+               <columns>
+                  <TableColumn fx:id="columnIdPeriodicite" prefWidth="60.0" text="ID" />
+                  <TableColumn fx:id="columnTitrePeriodicite" prefWidth="419.0" text="Libelle" />
+               </columns>
+            </TableView>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button fx:id="buttonModifierPeriodicite" mnemonicParsing="false" onAction="#modifierSelectedPeriodicite" text="  Modifier  ">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="buttonSupprimerPeriodicite" mnemonicParsing="false" onAction="#supprimerSelectedPeriodicite" text="Supprimer" />
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </bottom>
+</BorderPane>

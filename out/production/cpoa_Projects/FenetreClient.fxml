@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlClient">
+   <bottom>
+      <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="tableViewClient" onMouseClicked="#selectClientPutIntoTextField" prefHeight="472.0" prefWidth="697.0">
+               <columns>
+                  <TableColumn fx:id="columnNumClient" prefWidth="62.0" text="Numéro" />
+                  <TableColumn fx:id="columnNomClient" prefWidth="96.0" text="Nom" />
+                  <TableColumn fx:id="columnPrenomClient" prefWidth="91.0" text="Prénom" />
+                  <TableColumn fx:id="columnAdresseClient" prefWidth="447.0" text="Adresse" />
+               </columns>
+            </TableView>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button fx:id="btnImporter" mnemonicParsing="false" onAction="#importerClient" prefHeight="25.0" prefWidth="77.0" text="importer">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="buttonModifierClient" mnemonicParsing="false" onAction="#modifierSelectedClient" text="  Modifier  ">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="buttonSupprimerClient" mnemonicParsing="false" onAction="#supprimerSelectedClient" text="Supprimer" />
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </bottom>
+   <top>
+      <FlowPane minWidth="-Infinity" prefHeight="151.0" prefWidth="823.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar fx:id="myMenuBar" minWidth="-Infinity" prefHeight="25.0" prefWidth="811.0">
+               <menus>
+                  <Menu fx:id="menu_gestion" mnemonicParsing="false" text="Gestion">
+                     <items>
+                        <MenuItem fx:id="pageAccueil" mnemonicParsing="false" onAction="#goToPageAccueil" text="Accueil" />
+                        <MenuItem fx:id="pageRevue" mnemonicParsing="false" onAction="#goToPageRevue" text="Revue" />
+                        <MenuItem fx:id="pageClient" mnemonicParsing="false" onAction="#goToPageClient" text="Client" />
+                        <MenuItem fx:id="pageAbonnement" mnemonicParsing="false" onAction="#goToPageAbonnement" text="Abonnement" />
+                        <MenuItem fx:id="pagePeriodicite" mnemonicParsing="false" onAction="#goToPagePeriodicite" text="Periodicite" />
+                        <MenuItem fx:id="importer" mnemonicParsing="false" onAction="#goToPagePeriodicite" text="Periodicite" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <VBox alignment="CENTER" prefHeight="127.0" prefWidth="812.0">
+               <children>
+                  <Label text="Client">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </top>
+   <left>
+      <GridPane maxHeight="-Infinity" prefHeight="482.0" prefWidth="835.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Numéro :" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <TextField fx:id="txt_NumeroClient" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Saisir un Numéro" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Nom :" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+               <children>
+                  <Label text="No_rue:" />
+                  <Label text="Ville :">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="txt_NoRueClient" promptText="Ex : 18" />
+                        <TextField fx:id="txt_VilleClient" prefHeight="25.0" prefWidth="111.0" promptText="Ex : Metz">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_RIGHT" prefHeight="75.0" prefWidth="173.0">
+                     <children>
+                        <Label text="Voie :" />
+                        <Label text="Pays :">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+               <children>
+                  <Label text="Code Postal :" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Button fx:id="creerClient" mnemonicParsing="false" onAction="#creationClient" text="Créer" />
+                  <Label fx:id="labelVerifClient" text="Verification" textFill="RED">
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <TextField fx:id="txt_NomClient" prefHeight="25.0" prefWidth="140.0" promptText="Ex : Nathan" />
+                  <Label text="Prénom :">
+                     <padding>
+                        <Insets left="80.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <TextField fx:id="txt_PrenomClient" maxWidth="-Infinity" prefHeight="25.0" prefWidth="140.0" promptText="Ex : Carl" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <TextField fx:id="txt_VoieClient" maxWidth="-Infinity" prefHeight="25.0" prefWidth="140.0" promptText="Ex : rue principal" />
+                  <TextField fx:id="txt_PaysClient" maxWidth="-Infinity" prefHeight="25.0" prefWidth="139.0" promptText="Ex : France">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <TextField fx:id="txt_CodePostalClient" maxWidth="-Infinity" prefHeight="25.0" prefWidth="97.0" promptText="Ex : 57000" />
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </left>
+</BorderPane>

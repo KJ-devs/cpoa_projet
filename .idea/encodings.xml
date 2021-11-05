@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/model/listememoiredao/ListeMemoireAbonnementDAO.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/model/listememoiredao/ListeMemoireClientDAO.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/model/listememoiredao/ListeMemoirePeriodiciteDAO.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/model/listememoiredao/ListeMemoireRevueDAO.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/model/mysqldao/Metier/Periodicite.java" charset="windows-1252" />
+  </component>
+</project>

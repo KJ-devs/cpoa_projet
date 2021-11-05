@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlAccueil">
+   <top>
+      <FlowPane prefHeight="91.0" prefWidth="586.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar fx:id="myMenuBar" minWidth="-Infinity" prefHeight="25.0" prefWidth="603.0">
+               <menus>
+                  <Menu fx:id="menu_gestion" mnemonicParsing="false" text="Gestion">
+                     <items>
+                        <MenuItem fx:id="pageAccueil" mnemonicParsing="false" onAction="#goToPageAccueil" text="Accueil" />
+                        <MenuItem fx:id="pageRevue" mnemonicParsing="false" onAction="#goToPageRevue" text="Revue" />
+                        <MenuItem fx:id="pageClient" mnemonicParsing="false" onAction="#goToPageClient" text="Client" />
+                        <MenuItem fx:id="pageAbonnement" mnemonicParsing="false" onAction="#goToPageAbonnement" text="Abonnement" />
+                        <MenuItem fx:id="pagePeriodicite" mnemonicParsing="false" onAction="#goToPagePeriodicite" text="Periodicite" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <VBox alignment="CENTER" prefHeight="66.0" prefWidth="604.0">
+               <children>
+                  <Label text="RevuesOnline">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </FlowPane>
+   </top>
+   <center>
+      <VBox alignment="CENTER" prefHeight="157.0" prefWidth="353.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Chasse aux Livres" textFill="#f50000">
+               <font>
+                  <Font size="64.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label text="Venez cherchez vos livres ">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <RadioButton fx:id="radioButtonListeMemoire" mnemonicParsing="false" onAction="#getDAOMethode" text="ListeMemoire">
+               <toggleGroup>
+                  <ToggleGroup fx:id="langue" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioButtonSQl" mnemonicParsing="false" onAction="#getDAOMethode" text="SQL" toggleGroup="$langue">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </RadioButton>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
