@@ -10,9 +10,7 @@ public class Connexion {
         Connection maConnexion = null;
         try {
             if (maConnexion == null || maConnexion.isClosed()) {
-                maConnexion = DriverManager.getConnection(this.url,
-                        this.login, this.pwd);
-
+                maConnexion = DriverManager.getConnection(this.url , this.login, this.pwd);
             }
         } catch (SQLException sqle) {
             System.out.println("Erreur connexion" +

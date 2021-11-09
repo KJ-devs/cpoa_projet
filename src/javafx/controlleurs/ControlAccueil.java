@@ -39,7 +39,7 @@ public class ControlAccueil implements Initializable {
     public static DAOFactory getDao() {
         return dao;
     }
-    public void getDAOMethode(ActionEvent actionEvent) {
+    public void getDAOMethode() {
         if (radioButtonListeMemoire.isSelected()) {
             dao = DAOFactory.getDAOFactory(Persistance.LISTE_MEMOIRE);
         } else if (radioButtonSQl.isSelected()) {
@@ -49,7 +49,7 @@ public class ControlAccueil implements Initializable {
 
     // PERMET D'ACCEDER AUX DIFFERENTES PAGES
     @FXML
-    void goToPageAbonnement(ActionEvent event) throws IOException {
+    void goToPageAbonnement() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAbonnement.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -59,7 +59,7 @@ public class ControlAccueil implements Initializable {
     }
 
     @FXML
-    void goToPageAccueil(ActionEvent event) throws IOException {
+    void goToPageAccueil() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAccueil.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -69,7 +69,7 @@ public class ControlAccueil implements Initializable {
     }
 
     @FXML
-    void goToPageClient(ActionEvent event) throws IOException {
+    void goToPageClient() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreClient.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -79,7 +79,7 @@ public class ControlAccueil implements Initializable {
     }
 
     @FXML
-    void goToPageRevue(ActionEvent event) throws IOException {
+    void goToPageRevue() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreRevue.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -88,7 +88,7 @@ public class ControlAccueil implements Initializable {
         stage.setResizable(false);
     }
     @FXML
-    public void goToPagePeriodicite(ActionEvent actionEvent) throws IOException {
+    public void goToPagePeriodicite() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetrePeriodicite.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);

@@ -1,5 +1,7 @@
 package model.idao;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.List;
 
 import model.dao.DAO;

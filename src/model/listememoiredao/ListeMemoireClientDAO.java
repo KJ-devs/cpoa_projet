@@ -86,7 +86,7 @@ public class ListeMemoireClientDAO implements ClientIDAO<Client> {
 	public Client getById(int id) {
 		int idx = this.donnees.indexOf(new Client(null,null,null, null,null,null,null,id));
 		if (idx == -1) {
-			throw new IllegalArgumentException("Aucun objet ne poss�de cet identifiant");
+			throw new IllegalArgumentException("Aucun objet ne possede cet identifiant");
 		} else {
 			return this.donnees.get(idx);
 		}

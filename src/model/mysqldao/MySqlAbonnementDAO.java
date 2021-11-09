@@ -42,8 +42,8 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 
 				requete.setDate(1, date_deb);
 				requete.setDate(2, date_fin);
-				requete.setInt(3, objet.getId_client());
-				requete.setInt(4,objet.getId_Revue());
+				requete.setInt(3, objet.getClient().getId());
+				requete.setInt(4,objet.getRevue().getId_revue());
 
 				requete.executeUpdate();
 				return true;
@@ -66,8 +66,8 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 					java.sql.Date date_fin = new java.sql.Date(timeInMilliSeconds);
 					requete.setDate(1, date_fin);
 
-					requete.setInt(3,objet.getId_Revue());
-					requete.setInt(4,objet.getId_client());
+					requete.setInt(3,objet.getRevue().getId_revue());
+					requete.setInt(4,objet.getClient().getId());
 					requete.setInt(5,objet.getId_abonnement());
 					requete.executeUpdate();
 
@@ -102,7 +102,7 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 	            id_client =res.getInt("id_client");
 	            date_deb = res.getDate("date_deb");
 	            date_fin = res.getDate("date_fin");
-	            return new Abonnement(id_abonnement,date_deb,date_fin,id_client,id_Revue);
+	            return new Abonnement(id_abonnement,date_deb,date_fin,MySqlClientDAO.getInstance().getById(id_client),MySqlRevueDAO.getInstance().getById(id_Revue));
 
 	        }
 	        catch (SQLException sql){
@@ -123,7 +123,7 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 	                 id_client = res.getInt("id_client");
 	                 id_abonnement = res.getInt("id_abonnement");
 	                 date_fin = res.getDate("date_fin");
-	                 abonne = new Abonnement(id_abonnement,date_deb,date_fin,id_client,id_Revue);
+	                 abonne = new Abonnement(id_abonnement,date_deb,date_fin,MySqlClientDAO.getInstance().getById(id_client),MySqlRevueDAO.getInstance().getById(id_Revue));
 	                ListeAbonnement.add(abonne);
 	            }
 
@@ -148,7 +148,7 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 	                 id_abonnement = res.getInt("id_abonnement");
 	                 date_deb = res.getDate("date_deb");
 
-	                 abonne = new Abonnement(id_abonnement,date_deb,date_fin,id_client,id_Revue);
+	                 abonne = new Abonnement(id_abonnement,date_deb,date_fin,MySqlClientDAO.getInstance().getById(id_client),MySqlRevueDAO.getInstance().getById(id_Revue));
 	                ListeAbonnement.add(abonne);
 	            }
 
@@ -175,7 +175,7 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 				 date_deb = res.getDate("date_debut");
 				 date_fin = res.getDate("date_fin");
 
-				abonne = new Abonnement(id_abonnement, date_deb, date_fin, id_client, id_Revue);
+				abonne = new Abonnement(id_abonnement, date_deb, date_fin, MySqlClientDAO.getInstance().getById(id_client),MySqlRevueDAO.getInstance().getById(id_Revue));
 
 				ListeAbonnement.add(abonne);
 

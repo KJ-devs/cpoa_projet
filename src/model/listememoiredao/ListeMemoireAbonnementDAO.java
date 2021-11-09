@@ -14,11 +14,8 @@ public class ListeMemoireAbonnementDAO implements AbonnementIDAO<Abonnement> {
 	private ListeMemoireAbonnementDAO() {
 
 		this.donnees = new ArrayList<>();
-
-		Date date1 = new Date(2020,02,13);
-		Date date = new Date(2021,02,13);
-		this.donnees.add(new Abonnement(1,date1,date, 1, 1));
-		this.donnees.add(new Abonnement(2, null,null, 2, 2));
+		this.donnees.add(new Abonnement(1,null,null, null, null));
+		this.donnees.add(new Abonnement(2, null,null, null, null));
 	}
 	public static ListeMemoireAbonnementDAO getInstance() {
 		if (instance==null) {
@@ -29,7 +26,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementIDAO<Abonnement> {
 	@Override
 	public Abonnement getById(int id) {
 
-		int idx = this.donnees.indexOf(new Abonnement(id,null,null,1,2));
+		int idx = this.donnees.indexOf(new Abonnement(id,null,null,null,null));
 		if (idx == -1) {
 			throw new IllegalArgumentException("Aucun objet ne poss�de cet identifiant");
 		} else {

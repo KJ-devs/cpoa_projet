@@ -11,14 +11,14 @@ public class Revue {
 	private int id_periodicite;
 	private Periodicite periodicite;
 	
-	public Revue(int id_revue, String titre, String description, float tarif, String visuel, int id_periodicite) {
+	public Revue(int id_revue, String titre, String description, float tarif, String visuel, Periodicite periodicite) {
 		super();
 		this.id_revue = id_revue;
 		this.titre = titre;
 		this.description = description;
 		this.tarif = tarif;
 		this.visuel = visuel;
-		this.id_periodicite = id_periodicite;
+		this.periodicite = periodicite;
 	}
 
 
@@ -71,14 +71,14 @@ public class Revue {
 		this.visuel = visuel;
 	}
 
-	public int getId_periodicite() {
+	public Periodicite getPeriodicite() {
 
-		return id_periodicite;
+		return periodicite;
 	}
 
-	public void setId_periodicite(int id_periodicite) {
+	public void setId_periodicite(Periodicite periodicite) {
 
-		this.id_periodicite = id_periodicite;
+		this.periodicite = periodicite;
 	}
 
 	

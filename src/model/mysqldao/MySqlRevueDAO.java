@@ -40,7 +40,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
             requete.setFloat(2, objet.getTarif());
             requete.setString(3, objet.getTitre());
             requete.setString(4, objet.getVisuel());
-            requete.setInt(5,objet.getId_periodicite());
+            requete.setInt(5,objet.getPeriodicite().getId());
             requete.setInt(6, objet.getId_revue());
             requete.executeUpdate();
 
@@ -59,7 +59,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
             requete.setFloat(2, objet.getTarif());
             requete.setString(3, objet.getTitre());
             requete.setString(4, objet.getVisuel());
-            requete.setInt(5,objet.getId_periodicite());
+            requete.setInt(5,objet.getPeriodicite().getId());
             requete.setInt(6, objet.getId_revue());
             requete.executeUpdate();
 
@@ -105,7 +105,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
                 tarif_numero = res.getFloat("tarif_numero");
                 visuel = res.getString("visuel");
 
-                revue = new Revue(id_revue,titre,description,tarif_numero,visuel, id_periodicite);
+                revue = new Revue(id,titre,description,tarif_numero,visuel, MySqlPeriodiciteDAO.getInstance().getById(id_periodicite));
             }
             
             return revue;
@@ -130,7 +130,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
                  id_periodicite = res.getInt("id_periodicite");
                  visuel = res.getString("visuel");
 
-                 revue = new Revue(id_revue,titre,description,tarif_numero,visuel, id_periodicite);
+                 revue = new Revue(id_revue,titre,description,tarif_numero,visuel, MySqlPeriodiciteDAO.getInstance().getById(id_periodicite));
                 ListeRevue.add(revue);
             }
             return ListeRevue;
@@ -156,7 +156,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
                  id_periodicite = res.getInt("id_periodicite");
                  visuel = res.getString("visuel");
 
-                revue = new Revue(id_revue,titre,description,tarif_numero,visuel, id_periodicite);
+                revue = new Revue(id_revue,titre,description,tarif_numero,visuel, MySqlPeriodiciteDAO.getInstance().getById(id_periodicite));
                 ListeRevue.add(revue);
             }
             return ListeRevue;
@@ -182,7 +182,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
                  tarif_numero = res.getFloat("tarif_numero");
                  id_periodicite = res.getInt("id_periodicite");
 
-                revue = new Revue(id_revue,titre,description,tarif_numero,visuel, id_periodicite);
+                revue = new Revue(id_revue,titre,description,tarif_numero,visuel, MySqlPeriodiciteDAO.getInstance().getById(id_periodicite));
                 ListeRevue.add(revue);
             }
             return ListeRevue;
@@ -207,7 +207,7 @@ public class MySqlRevueDAO implements RevueIDAO<Revue> {
                  visuel = res.getString("visuel");
                  id_periodicite = res.getInt("id_periodicite");
 
-                ListeRevue.add(new Revue(id_revue, titre, description, tarif_numero, visuel, id_periodicite));
+                ListeRevue.add(new Revue(id_revue, titre, description, tarif_numero, visuel, MySqlPeriodiciteDAO.getInstance().getById(id_periodicite)));
             }
             return ListeRevue;
 

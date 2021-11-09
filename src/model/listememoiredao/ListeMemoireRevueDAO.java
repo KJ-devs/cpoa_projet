@@ -1,7 +1,9 @@
 package model.listememoiredao;
 
 import model.idao.RevueIDAO;
+import model.metier.Periodicite;
 import model.metier.Revue;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,10 @@ public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 	private ListeMemoireRevueDAO() {
 
 		this.donnees = new ArrayList<>();
-
-		this.donnees.add(new Revue(1, "Monster", "Histoire intriguante", 1, "Bon etat", 1));
-		this.donnees.add(new Revue(2, "Hunter", "Histoire incroyable d'un jeune homme nommé Julien Criquelion", 2, "Mauvais etat", 2));
+		Periodicite p1 = new Periodicite(1,"Mensuel");
+		Periodicite p2 = new Periodicite(2,"Annuel");
+		this.donnees.add(new Revue(1, "Monster", "Histoire intriguante", 1, null, p1));
+		this.donnees.add(new Revue(2, "Hunter", "Histoire incroyable d'un jeune homme nommé Julien Criquelion", 2, null, p2));
 
 	}
 	@Override
@@ -71,7 +74,7 @@ public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 	}@Override
 	public Revue getById(int id) {
 		// Ne fonctionne que si l'objet métier est bien fait...
-		int idx = this.donnees.indexOf(new Revue(id, "test",null,1, null, 5));
+		int idx = this.donnees.indexOf(new Revue(id, null,null,1, null, null));
 		if (idx == -1) {
 			throw new IllegalArgumentException("Aucun objet ne possède cet identifiant");
 		} else {

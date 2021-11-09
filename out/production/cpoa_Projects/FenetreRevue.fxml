@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
@@ -20,13 +21,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlRevue">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" style="-fx-background-color: #1d3557;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlRevue">
     <center>
         <GridPane maxHeight="-Infinity" prefHeight="482.0" prefWidth="835.0" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="171.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="362.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -38,7 +39,7 @@
             <children>
                 <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Label text="Titre :" />
+                        <Label text="Titre :" textFill="WHITE" />
                     </children>
                 </VBox>
                 <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
@@ -48,19 +49,19 @@
                 </VBox>
                 <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                     <children>
-                        <Label text="Description :" />
+                        <Label text="Description :" textFill="WHITE" />
                     </children>
                 </VBox>
                 <TextArea fx:id="txt_DescriptionRevue" prefHeight="200.0" prefWidth="200.0" promptText="Saisir une description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                     <children>
-                        <Label text="Tarif :" />
+                        <Label text="Tarif :" textFill="WHITE" />
                     </children>
                 </VBox>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
                         <TextField fx:id="txt_TarifRevue" prefHeight="25.0" prefWidth="77.0" promptText="0" />
-                        <Label text="euros">
+                        <Label text="euros" textFill="WHITE">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
@@ -69,7 +70,7 @@
                 </HBox>
                 <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                     <children>
-                        <Label text="Periodicite :" />
+                        <Label text="Periodicite :" textFill="WHITE" />
                     </children>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -87,6 +88,16 @@
                         </Label>
                     </children>
                 </VBox>
+            <ImageView fx:id="imageViewRevue" fitHeight="220.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </ImageView>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <Button fx:id="importImageRevue" mnemonicParsing="false" onAction="#importerImage" text="importer Image" />
+               </children>
+            </VBox>
             </children>
         </GridPane>
     </center>
@@ -107,7 +118,7 @@
                 </MenuBar>
                 <VBox alignment="CENTER" prefHeight="127.0" prefWidth="812.0">
                     <children>
-                        <Label text="Revue">
+                        <Label text="Revue" textFill="WHITE">
                             <font>
                                 <Font size="36.0" />
                             </font>

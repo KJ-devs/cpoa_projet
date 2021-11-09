@@ -1,10 +1,6 @@
 package javafx.controlleurs;
 
 
-import model.daofactory.DAOFactory;
-import model.daofactory.Persistance;
-import model.metier.Periodicite;
-import model.metier.Revue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,10 +10,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import model.daofactory.DAOFactory;
+import model.metier.Periodicite;
+import model.metier.Revue;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +28,7 @@ public class ControlRevue implements Initializable {
 
     @FXML private MenuBar myMenuBar;
 
+    @FXML private ImageView imageViewRevue;
 
     @FXML private TableView<Revue> tableViewRevue;
 
@@ -40,7 +42,7 @@ public class ControlRevue implements Initializable {
 
     @FXML private TableColumn<Revue,String> columnVisuelRevue;
 
-    @FXML private TableColumn<Revue,Integer> columnPeriodiciteRevue;
+    @FXML private TableColumn<Revue,Periodicite> columnPeriodiciteRevue;
 
     @FXML private TextArea txt_DescriptionRevue;
 
@@ -54,6 +56,7 @@ public class ControlRevue implements Initializable {
     private Stage stage;
     private Scene scene;
     private DAOFactory dao = ControlAccueil.getDao();
+    private static String absolutePath;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,7 +66,7 @@ public class ControlRevue implements Initializable {
         columnDescriptionRevue.setCellValueFactory(new PropertyValueFactory<Revue, String>("Description"));
         columnVisuelRevue.setCellValueFactory(new PropertyValueFactory<Revue, String>("Visuel"));
         columnTarifRevue.setCellValueFactory(new PropertyValueFactory<Revue, Float>("Tarif"));
-        columnPeriodiciteRevue.setCellValueFactory(new PropertyValueFactory<Revue, Integer>("Id_periodicite"));
+        columnPeriodiciteRevue.setCellValueFactory(new PropertyValueFactory<Revue,Periodicite>("Periodicite"));
         this.choiceBoxPerio.setItems(FXCollections.observableArrayList(dao.getPeriodiciteIDAO().getAll()));
         refreshTableRevue();
 
@@ -110,21 +113,22 @@ public class ControlRevue implements Initializable {
         return check;
     }
 
-    public void creationRevue(ActionEvent actionEvent) {
+    public void creationRevue()  {
         if (verificationRevue()) {
-            labelVerifRevue.setText("Creation reussis");
-            Revue revue = new Revue(0,txt_TitreRevue.getText(),txt_DescriptionRevue.getText(),Float.parseFloat(txt_TarifRevue.getText()),null,Integer.parseInt(Integer.toString(choiceBoxPerio.getSelectionModel().getSelectedItem().getId())));
+            labelVerifRevue.setText("Creation reussie");
+
+            Revue revue = new Revue(0,txt_TitreRevue.getText(),txt_DescriptionRevue.getText(),Float.parseFloat(txt_TarifRevue.getText()),"",choiceBoxPerio.getValue());
             dao.getRevueIDAO().create(revue);
             refreshTableRevue();
         }
     }
 
-    public void modifierSelectedReue(ActionEvent actionEvent) {
+    public void modifierSelectedReue() {
         // recupère l'index de la ligne selectionner
         int index = tableViewRevue.getSelectionModel().getSelectedIndex();
         if (verificationRevue()) {
-            labelVerifRevue.setText("Modification reussis");
-            Revue revue = new Revue(columnIdRevue.getCellData(index), txt_TitreRevue.getText(), txt_DescriptionRevue.getText(), Float.parseFloat(txt_TarifRevue.getText()), null, Integer.parseInt(Integer.toString(choiceBoxPerio.getSelectionModel().getSelectedItem().getId())));
+            labelVerifRevue.setText("Modification reussie");
+            Revue revue = new Revue(columnIdRevue.getCellData(index), txt_TitreRevue.getText(), txt_DescriptionRevue.getText(), Float.parseFloat(txt_TarifRevue.getText()), null,choiceBoxPerio.getValue());
             dao.getRevueIDAO().update(revue);
             refreshTableRevue();
         }
@@ -133,28 +137,37 @@ public class ControlRevue implements Initializable {
 
     }
 
-    public void supprimerSelectedRevue(ActionEvent actionEvent) {
+    public void supprimerSelectedRevue() {
+        labelVerifRevue.setText("Suppression reussie");
         dao.getRevueIDAO().delete(tableViewRevue.getSelectionModel().getSelectedItem());
         refreshTableRevue();
     }
 
-    public void selectRevuePutIntoTextField(MouseEvent mouseEvent) {
+    public void selectRevuePutIntoTextField() {
         tableViewRevue.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
             Revue revue = tableViewRevue.getSelectionModel().getSelectedItem();
                     if (tableViewRevue.isFocused() == true) {
-                        choiceBoxPerio.getSelectionModel().select((Periodicite) dao.getPeriodiciteIDAO().getById(revue.getId_periodicite()));
+                        choiceBoxPerio.getSelectionModel().select(revue.getPeriodicite());
                         txt_TitreRevue.setText(revue.getTitre());
                         txt_DescriptionRevue.setText(revue.getDescription());
                         txt_TarifRevue.setText(Float.toString(revue.getTarif()));
                     }
         });
     }
-
-
+    public void importerImage() throws IOException {
+        FileChooser parcourirFichier = new FileChooser();
+        File selectedFile = parcourirFichier.showOpenDialog(null);
+        if (selectedFile != null) {
+            Image imageSelected = new Image(selectedFile.getAbsolutePath());
+            imageViewRevue.setImage(imageSelected);
+             absolutePath = selectedFile.getAbsolutePath();
+             FileInputStream is = new FileInputStream(new File(absolutePath));
+        }
+    }
 
     // PERMET DACCEDER AUX DIFFERENTES PAGES
     @FXML
-    void goToPageAbonnement(ActionEvent event) throws IOException {
+    void goToPageAbonnement() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAbonnement.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -164,7 +177,7 @@ public class ControlRevue implements Initializable {
     }
 
     @FXML
-    void goToPageAccueil(ActionEvent event) throws IOException {
+    void goToPageAccueil() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAccueil.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -174,7 +187,7 @@ public class ControlRevue implements Initializable {
     }
 
     @FXML
-    void goToPageClient(ActionEvent event) throws IOException {
+    void goToPageClient() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreClient.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -184,7 +197,7 @@ public class ControlRevue implements Initializable {
     }
 
     @FXML
-    void goToPageRevue(ActionEvent event) throws IOException {
+    void goToPageRevue() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreRevue.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -194,7 +207,7 @@ public class ControlRevue implements Initializable {
 
     }
     @FXML
-    public void goToPagePeriodicite(ActionEvent actionEvent) throws IOException {
+    public void goToPagePeriodicite() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetrePeriodicite.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -202,6 +215,7 @@ public class ControlRevue implements Initializable {
         stage.show();
         stage.setResizable(false);
     }
+
 
 }
 

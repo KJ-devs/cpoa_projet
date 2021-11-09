@@ -59,7 +59,7 @@ public class Periodicite {
 
 	@Override
 	public String toString() {
-		return id +" "+ libelle;
+		return  libelle;
 	}
 }
 

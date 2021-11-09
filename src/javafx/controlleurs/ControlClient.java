@@ -1,8 +1,5 @@
 package javafx.controlleurs;
 
-import model.daofactory.DAOFactory;
-import model.daofactory.Persistance;
-import model.metier.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +11,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.daofactory.DAOFactory;
+import model.daofactory.Persistance;
+import model.metier.Client;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +21,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static model.tools.ProcessAdresse.*;
 
 public class ControlClient  implements Initializable {
 
@@ -42,8 +44,6 @@ public class ControlClient  implements Initializable {
 
     @FXML private TextField txt_NomClient;
 
-    @FXML private TextField txt_NumeroClient;
-
     @FXML private TextField txt_PaysClient;
 
     @FXML private TextField txt_PrenomClient;
@@ -54,12 +54,10 @@ public class ControlClient  implements Initializable {
 
     @FXML private Label labelVerifClient;
 
-    @FXML private Button btnImporter;
-
     private Parent root;
     private Stage stage;
     private Scene scene;
-    private DAOFactory dao = ControlAccueil.getDao();
+    private final DAOFactory dao = ControlAccueil.getDao();
 
 
 
@@ -67,7 +65,6 @@ public class ControlClient  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DAOFactory dao = DAOFactory.getDAOFactory(Persistance.MYSQL);
         // initialise table Client
         columnNumClient.setCellValueFactory(new PropertyValueFactory<Client, Integer>("Id"));
         columnNomClient.setCellValueFactory(new PropertyValueFactory<Client, String>("Nom"));
@@ -84,13 +81,7 @@ public class ControlClient  implements Initializable {
 
         boolean check = true;
         String messageErreur = "";
-        if (txt_NumeroClient.getText().trim().equals("")) {
-            messageErreur = messageErreur + "Saisir un numero Client\n";
-            check = false;
-        } else if (!(txt_NumeroClient.getText().trim().matches("[+-]?\\d*(\\.\\d+)?"))) {
-            messageErreur = messageErreur + "Saisir un nombre dans numero Client\n";
-            check = false;
-        }
+
         if (txt_NomClient.getText().trim().equals("")) {
             messageErreur = messageErreur + "Saisir un nom\n";
             check = false;
@@ -153,37 +144,52 @@ public class ControlClient  implements Initializable {
    
 
     @FXML
-    void creationClient(ActionEvent event) {
+    void creationClient() {
+
         if (verificationClient()) {
-            labelVerifClient.setText("creation reussis");
-            Client client = new Client(txt_NomClient.getText(), txt_PrenomClient.getText(), txt_NoRueClient.getText(), txt_VoieClient.getText(), txt_CodePostalClient.getText(), txt_VilleClient.getText(), txt_PaysClient.getText(), Integer.parseInt(txt_NumeroClient.getText()));
+            labelVerifClient.setText("Creation reussie");
+            Client client = new Client(txt_NomClient.getText(), txt_PrenomClient.getText(),txt_NoRueClient.getText(), txt_VoieClient.getText(), txt_CodePostalClient.getText(), txt_VilleClient.getText(), txt_PaysClient.getText(),0);
+            normalizePays(client);
+            normalizeVille(client);
+            normalizeCodePostal(client);
+            normalizeVoie(client);
+            normalizeCodePostal(client);
             dao.getClientIDAO().create(client);
             refreshTableClient();
         }
     }
 
+
+
     public void modifierSelectedClient(ActionEvent actionEvent) {
         if (verificationClient()) {
-            labelVerifClient.setText("Modification reussis");
-            Client client = new Client(txt_NomClient.getText(), txt_PrenomClient.getText(), txt_NoRueClient.getText(), txt_VoieClient.getText(), txt_CodePostalClient.getText(), txt_VilleClient.getText(), txt_PaysClient.getText(), Integer.parseInt(txt_NumeroClient.getText()));
+            labelVerifClient.setText("Modification reussie");
+            int index = tableViewClient.getSelectionModel().getSelectedIndex();
+            Client client = new Client(txt_NomClient.getText(), txt_PrenomClient.getText(), txt_NoRueClient.getText(), txt_VoieClient.getText(), txt_CodePostalClient.getText(), txt_VilleClient.getText(), txt_PaysClient.getText(), columnNumClient.getCellData(index));
+            normalizePays(client);
+            normalizeVille(client);
+            normalizeCodePostal(client);
+            normalizeVoie(client);
+            normalizeCodePostal(client);
             dao.getClientIDAO().update(client);
             refreshTableClient();
+
         }
 
     }
     
-    public void supprimerSelectedClient(ActionEvent actionEvent) {
+    public void supprimerSelectedClient() {
+        labelVerifClient.setText("Supression reussie");
         dao.getClientIDAO().delete(tableViewClient.getSelectionModel().getSelectedItem());
         refreshTableClient();
 
     }
 
 
-    public void selectClientPutIntoTextField(MouseEvent mouseEvent) {
+    public void selectClientPutIntoTextField() {
         tableViewClient.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
             Client client = tableViewClient.getSelectionModel().getSelectedItem();//classe du model
             if (tableViewClient.isFocused() == true) {
-                txt_NumeroClient.setText(Integer.toString(client.getId()));
                 txt_NomClient.setText(client.getNom());
                 txt_PrenomClient.setText(client.getPrenom());
                 txt_NoRueClient.setText(client.getNo_rue());
@@ -196,20 +202,23 @@ public class ControlClient  implements Initializable {
     }
 
     @FXML
-    void importerClient(ActionEvent event) throws IOException {
+    void importerClient() throws IOException {
         FileChooser parcourirFichiers = new FileChooser();
         File selectedFile = parcourirFichiers.showOpenDialog(null);
-        //parcourirFichiers.setInitialDirectory(new File("C:\\Users\\krebs\\OneDrive\\Documents"));
-        //parcourirFichiers.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV","*.csv"));
         if (selectedFile != null) { // si on choisit un fichier , on fait la methode
 
             BufferedReader reader = new BufferedReader(new FileReader(selectedFile.getAbsolutePath())); // recupère le chemin du dossier
-            String line ="";
+            String line;
             try {
 
                 while((line =reader.readLine()) != null) {
                     String[] row = line.split(";");
                     Client client = new Client(row[0],row[1],row[2],row[3],row[4],row[5],row[6],Integer.parseInt(row[7]));
+                    normalizePays(client);
+                    normalizeVille(client);
+                    normalizeCodePostal(client);
+                    normalizeVoie(client);
+                    normalizeCodePostal(client);
                     dao.getClientIDAO().create(client);
                 }
             } catch (Exception e) {
@@ -222,7 +231,7 @@ public class ControlClient  implements Initializable {
     }
     // PERMET D'ACCEDER AUX DIFFERENTES PAGES
     @FXML
-    void goToPageAbonnement(ActionEvent event) throws IOException {
+    void goToPageAbonnement() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAbonnement.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -234,7 +243,7 @@ public class ControlClient  implements Initializable {
     }
 
     @FXML
-    void goToPageAccueil(ActionEvent event) throws IOException {
+    void goToPageAccueil() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAccueil.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -244,7 +253,7 @@ public class ControlClient  implements Initializable {
     }
 
     @FXML
-    void goToPageClient(ActionEvent event) throws IOException {
+    void goToPageClient() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreClient.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -254,7 +263,7 @@ public class ControlClient  implements Initializable {
     }
 
     @FXML
-    void goToPageRevue(ActionEvent event) throws IOException {
+    void goToPageRevue() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreRevue.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -264,7 +273,7 @@ public class ControlClient  implements Initializable {
 
     }
     @FXML
-    public void goToPagePeriodicite(ActionEvent actionEvent) throws IOException {
+    public void goToPagePeriodicite() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetrePeriodicite.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);

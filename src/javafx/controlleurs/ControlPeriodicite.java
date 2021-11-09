@@ -1,8 +1,5 @@
 package javafx.controlleurs;
 
-import model.daofactory.DAOFactory;
-import model.daofactory.Persistance;
-import model.metier.Periodicite;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+import model.daofactory.DAOFactory;
+import model.metier.Periodicite;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -68,19 +66,19 @@ public class ControlPeriodicite implements Initializable {
         return check;
     }
     @FXML
-    void creationPeriodicite(ActionEvent event) {
+    void creationPeriodicite() {
 
         if (verificationPeriodicite()) {
-            labelVerifPeriodicite.setText("Creation reussis");
+            labelVerifPeriodicite.setText("Creation reussie");
             Periodicite periodicite = new Periodicite(0,txt_LibellePeriodicite.getText());
             dao.getPeriodiciteIDAO().create(periodicite);
             refreshTablePeriodicite();
         }
     }    @FXML
-    void modifierSelectedPeriodicite(ActionEvent event) {
+    void modifierSelectedPeriodicite() {
         int index = tableViewPeriodicite.getSelectionModel().getSelectedIndex();
         if (verificationPeriodicite()) {
-            labelVerifPeriodicite.setText("Modification reussis");
+            labelVerifPeriodicite.setText("Modification reussie");
             Periodicite periodicite = new Periodicite(columnIdPeriodicite.getCellData(index),txt_LibellePeriodicite.getText());
             dao.getPeriodiciteIDAO().update(periodicite);
             refreshTablePeriodicite();
@@ -89,14 +87,14 @@ public class ControlPeriodicite implements Initializable {
     }
 
     @FXML
-    void supprimerSelectedPeriodicite(ActionEvent event) {
-        labelVerifPeriodicite.setText("Supprimer Reussis");
+    void supprimerSelectedPeriodicite() {
+        labelVerifPeriodicite.setText("Suppression Reussie");
         dao.getPeriodiciteIDAO().delete(tableViewPeriodicite.getSelectionModel().getSelectedItem());
         refreshTablePeriodicite();
     }
 
     @FXML
-    void selectPeriodicitePutIntoTextField(MouseEvent event) {
+    void selectPeriodicitePutIntoTextField() {
         tableViewPeriodicite.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
             Periodicite periodicite = tableViewPeriodicite.getSelectionModel().getSelectedItem();//classe du model
             if (tableViewPeriodicite.isFocused() == true) {
@@ -107,7 +105,7 @@ public class ControlPeriodicite implements Initializable {
 
     // Permet d'acceder aux differentes pages
     @FXML
-    void goToPageAccueil(ActionEvent event) throws IOException {
+    void goToPageAccueil() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAccueil.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -116,7 +114,7 @@ public class ControlPeriodicite implements Initializable {
         stage.setResizable(false);
     }
     @FXML
-    void goToPageAbonnement(ActionEvent event) throws IOException {
+    void goToPageAbonnement() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAbonnement.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -125,7 +123,7 @@ public class ControlPeriodicite implements Initializable {
         stage.setResizable(false);
     }
     @FXML
-    void goToPageClient(ActionEvent event) throws IOException {
+    void goToPageClient() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreClient.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -135,7 +133,7 @@ public class ControlPeriodicite implements Initializable {
     }
 
     @FXML
-    void goToPageRevue(ActionEvent event) throws IOException {
+    void goToPageRevue() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreRevue.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -145,7 +143,7 @@ public class ControlPeriodicite implements Initializable {
 
     }
     @FXML
-    public void goToPagePeriodicite(ActionEvent actionEvent) throws IOException {
+    public void goToPagePeriodicite() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetrePeriodicite.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);

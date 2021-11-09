@@ -1,11 +1,5 @@
 package javafx.controlleurs;
 
-import model.daofactory.DAOFactory;
-import model.daofactory.Persistance;
-import model.metier.Abonnement;
-import model.metier.Client;
-import model.metier.Periodicite;
-import model.metier.Revue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,21 +10,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.daofactory.DAOFactory;
+import model.metier.Abonnement;
+import model.metier.Client;
+import model.metier.Revue;
+import model.tools.ConversionDate;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Date;
-import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class ControlAbonnement implements Initializable {
 
     private Abonnement abonnement;
     @FXML
-    private TableColumn<Abonnement, Integer> columnClientAbonnement;
+    private TableColumn<Abonnement, Client> columnClientAbonnement;
 
     @FXML
-    private TableColumn<Abonnement, Integer> columnRevueAbonnement;
+    private TableColumn<Abonnement, Revue> columnRevueAbonnement;
 
     @FXML
     private TableColumn<Abonnement, Date> columnDateDebAbonnement;
@@ -43,6 +42,9 @@ public class ControlAbonnement implements Initializable {
 
     @FXML
     private ChoiceBox<Revue> choiceBoxRevue;
+
+    @FXML
+    private Label labelVerifAbonnement;
 
     @FXML
     private TableView<Abonnement> tableViewAbonnement;
@@ -65,14 +67,22 @@ public class ControlAbonnement implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DAOFactory dao = DAOFactory.getDAOFactory(Persistance.MYSQL);
+
         this.choiceBoxClient.setItems(FXCollections.observableArrayList(dao.getClientIDAO().getAll()));
         this.choiceBoxRevue.setItems(FXCollections.observableArrayList(dao.getRevueIDAO().getAll()));
-        columnClientAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Integer>("Id_client"));
-        columnRevueAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Integer>("Id_Revue"));
+        columnClientAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Client>("client"));
+        columnRevueAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Revue>("Revue"));
         columnDateDebAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Date>("Date_deb"));
         columnDateFinAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Date>("Date_fin"));
         refreshTableAbonnement();
+        tableViewAbonnement.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
+            Abonnement abonnement = tableViewAbonnement.getSelectionModel().getSelectedItem();
+
+            choiceBoxRevue.getSelectionModel().select((Revue) dao.getRevueIDAO().getById(abonnement.getRevue().getId_revue()));
+            choiceBoxClient.getSelectionModel().select((Client) dao.getClientIDAO().getById(abonnement.getClient().getId()));
+
+
+        });
 
 
     }
@@ -83,73 +93,76 @@ public class ControlAbonnement implements Initializable {
         this.tableViewAbonnement.getItems().addAll(dao.getAbonnementIDAO().getAll());
     }
     public void selectAbonnementPutIntoTextField(ActionEvent actionEvent) {
-        tableViewAbonnement.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
-            Abonnement abonnement = tableViewAbonnement.getSelectionModel().getSelectedItem();//classe du model
-            if (tableViewAbonnement.isFocused() == true) {
-                choiceBoxClient.getSelectionModel().select((Client) dao.getClientIDAO().getById(abonnement.getId_client()));
-                choiceBoxRevue.getSelectionModel().select((Revue) dao.getRevueIDAO().getById(abonnement.getId_Revue()));
-            }
-        });
+
     }
-    public void creationAbonnement(ActionEvent actionEvent)  {
-        int client = Integer.parseInt(Integer.toString(choiceBoxClient.getSelectionModel().getSelectedItem().getId()));
-        int revue = Integer.parseInt(Integer.toString(choiceBoxRevue.getSelectionModel().getSelectedItem().getId_revue()));
-        Date dateDeb =  Date.from(dateDebAbo.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        Date dateFin =  Date.from(dateFinAbo.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        String messageErreur="";
+    public boolean verifAbonnement(LocalDate dateDeb,LocalDate dateFin){
+
+        String messageErreur = "";
         boolean check = true;
 
-        if (dateDeb.after(dateFin)) {
-            messageErreur = messageErreur +"Saisir une date de debut avant une date de fin d'abonnement\n";
+        if (dateDeb == null || dateFin == null){
+            messageErreur = "Veuillez saisir des dates\n";
+            check = false;
+        }else if (dateDeb.isAfter(dateFin)){
+            messageErreur = "Veuillez saisir une date de début valide\n";
             check = false;
         }
-        if(check) {
-            Abonnement abonnement = new Abonnement(0, dateDeb, dateFin,client, revue);
+        if (choiceBoxClient.getValue() == null){
+            messageErreur = messageErreur + "Veuillez saisir un Client\n";
+            check = false;
+            System.out.println(choiceBoxClient.getValue());
+        }
+        if (choiceBoxRevue.getValue() == null){
+            messageErreur = messageErreur + "Veuillez saisir une Revue\n";
+            check = false;
+        }
+
+        if (!check){
+            Alert dialog = new Alert(Alert.AlertType.ERROR);
+            dialog.setTitle("Probleme");
+            dialog.setContentText(messageErreur);
+            dialog.showAndWait();
+        }
+        return check ;
+    }
+    public void creationAbonnement()  {
+
+
+        if(verifAbonnement(dateDebAbo.getValue(),dateFinAbo.getValue())) {
+
+            Date dateDeb =  ConversionDate.DateToLocalDate(dateDebAbo.getValue());
+            Date dateFin =  ConversionDate.DateToLocalDate(dateFinAbo.getValue());
+            labelVerifAbonnement.setText("Creation reussis");
+            Abonnement abonnement = new Abonnement(0, dateDeb, dateFin,choiceBoxClient.getValue(), choiceBoxRevue.getValue());
             dao.getAbonnementIDAO().create(abonnement);
             refreshTableAbonnement();
-        } else {
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.setTitle("Probleme");
-            dialog.setContentText(messageErreur);
-            dialog.showAndWait();
         }
 
     }
 
-    public void modifierSelectedAbonnement(ActionEvent actionEvent) {
-        int client = Integer.parseInt(Integer.toString(choiceBoxClient.getSelectionModel().getSelectedItem().getId()));
-        int revue = Integer.parseInt(Integer.toString(choiceBoxRevue.getSelectionModel().getSelectedItem().getId_revue()));
-        Date dateDeb =  Date.from(dateDebAbo.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        Date dateFin =  Date.from(dateFinAbo.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        String messageErreur="";
-        boolean check = true;
-        if (dateDeb == null || dateFin == null) {
-            messageErreur = messageErreur + "Saisir une date de debut et une date de fin d'abonnement\n";
-            check = false;
-        }
-        if (dateDeb.after(dateFin)) {
-            messageErreur = messageErreur +"Saisir une date de debut avant une date de fin d'abonnement\n";
-            check = false;
-        }
-        if(check) {
-            Abonnement abonnement = new Abonnement(0, dateDeb, dateFin, client, revue);
+    public void modifierSelectedAbonnement() {
+
+
+        if(verifAbonnement(dateDebAbo.getValue(),dateFinAbo.getValue())) {
+
+            Date dateDeb =  ConversionDate.DateToLocalDate(dateDebAbo.getValue());
+            Date dateFin =  ConversionDate.DateToLocalDate(dateFinAbo.getValue());
+
+            labelVerifAbonnement.setText("Modification reussie");
+            Abonnement abonnement = new Abonnement(0, dateDeb, dateFin,choiceBoxClient.getValue(),choiceBoxRevue.getValue());
             dao.getAbonnementIDAO().update(abonnement);
             refreshTableAbonnement();
-        } else {
-            Alert dialog = new Alert(Alert.AlertType.ERROR);
-            dialog.setTitle("Probleme");
-            dialog.setContentText(messageErreur);
-            dialog.showAndWait();
         }
     }
 
-    public void supprimerSelectedAbonnement(ActionEvent actionEvent) {
+    public void supprimerSelectedAbonnement() {
+        labelVerifAbonnement.setText("Suppression reussie");
         dao.getAbonnementIDAO().delete(tableViewAbonnement.getSelectionModel().getSelectedItem());
         refreshTableAbonnement();
     }
     // PERMET D'ACCEDER AUX DIFFERENTES PAGES
     @FXML
-    void goToPageAbonnement(ActionEvent event) throws IOException {
+    void goToPageAbonnement() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAbonnement.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -159,7 +172,7 @@ public class ControlAbonnement implements Initializable {
     }
 
     @FXML
-    void goToPageAccueil(ActionEvent event) throws IOException {
+    void goToPageAccueil() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAccueil.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -169,7 +182,7 @@ public class ControlAbonnement implements Initializable {
     }
 
     @FXML
-    void goToPageClient(ActionEvent event) throws IOException {
+    void goToPageClient() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreClient.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -179,7 +192,7 @@ public class ControlAbonnement implements Initializable {
     }
 
     @FXML
-    void goToPageRevue(ActionEvent event) throws IOException {
+    void goToPageRevue() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreRevue.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);
@@ -188,7 +201,7 @@ public class ControlAbonnement implements Initializable {
         stage.setResizable(false);
     }
     @FXML
-    public void goToPagePeriodicite(ActionEvent actionEvent) throws IOException {
+    public void goToPagePeriodicite() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetrePeriodicite.fxml"));
         stage = (Stage) myMenuBar.getScene().getWindow();
         scene = new Scene(root);

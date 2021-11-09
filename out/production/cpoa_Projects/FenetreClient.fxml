@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlClient">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" style="-fx-background-color: #1d3557;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controlleurs.ControlClient">
    <bottom>
       <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -60,14 +60,13 @@
                         <MenuItem fx:id="pageClient" mnemonicParsing="false" onAction="#goToPageClient" text="Client" />
                         <MenuItem fx:id="pageAbonnement" mnemonicParsing="false" onAction="#goToPageAbonnement" text="Abonnement" />
                         <MenuItem fx:id="pagePeriodicite" mnemonicParsing="false" onAction="#goToPagePeriodicite" text="Periodicite" />
-                        <MenuItem fx:id="importer" mnemonicParsing="false" onAction="#goToPagePeriodicite" text="Periodicite" />
                      </items>
                   </Menu>
                </menus>
             </MenuBar>
             <VBox alignment="CENTER" prefHeight="127.0" prefWidth="812.0">
                <children>
-                  <Label text="Client">
+                  <Label text="Client" textFill="WHITE">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -92,25 +91,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Numéro :" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-               <children>
-                  <TextField fx:id="txt_NumeroClient" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Saisir un Numéro" />
-               </children>
-            </VBox>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" />
+            <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
             <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
-                  <Label text="Nom :" />
+                  <Label text="Nom :" textFill="WHITE" />
                </children>
             </VBox>
             <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
-                  <Label text="No_rue:" />
-                  <Label text="Ville :">
+                  <Label text="No_rue:" textFill="WHITE" />
+                  <Label text="Ville :" textFill="WHITE">
                      <VBox.margin>
                         <Insets top="30.0" />
                      </VBox.margin>
@@ -131,8 +122,8 @@
                   </VBox>
                   <VBox alignment="TOP_RIGHT" prefHeight="75.0" prefWidth="173.0">
                      <children>
-                        <Label text="Voie :" />
-                        <Label text="Pays :">
+                        <Label text="Voie :" textFill="WHITE" />
+                        <Label text="Pays :" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="30.0" />
                            </VBox.margin>
@@ -143,7 +134,7 @@
             </HBox>
             <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                <children>
-                  <Label text="Code Postal :" />
+                  <Label text="Code Postal :" textFill="WHITE" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -159,7 +150,7 @@
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <TextField fx:id="txt_NomClient" prefHeight="25.0" prefWidth="140.0" promptText="Ex : Nathan" />
-                  <Label text="Prénom :">
+                  <Label text="Prénom :" textFill="WHITE">
                      <padding>
                         <Insets left="80.0" />
                      </padding>

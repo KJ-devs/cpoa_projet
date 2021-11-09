@@ -8,15 +8,15 @@ public class Abonnement {
 	private int id_abonnement;
 	private Date date_deb;
 	private Date date_fin;
-	private int id_client;
-	private int id_Revue;
-	public Abonnement(int id_abonnement, Date date_deb, Date date_fin, int id_client, int id_Revue) {
+	private Client client;
+	private Revue revue;
+	public Abonnement(int id_abonnement, Date date_deb, Date date_fin, Client client, Revue revue) {
 		super();
 		this.id_abonnement = id_abonnement;
 		this.date_deb = date_deb;
 		this.date_fin = date_fin;
-		this.id_client = id_client;
-		this.id_Revue = id_Revue;
+		this.client = client;
+		this.revue = revue;
 	}
 	public int getId_abonnement() {
 
@@ -42,26 +42,26 @@ public class Abonnement {
 
 		this.date_fin = date_fin;
 	}
-	public int getId_client() {
+	public Client getClient() {
 
-		return id_client;
+		return client;
 	}
-	public void setId_client(int id_client) {
+	public void setId_client(Client client) {
 
-		this.id_client = id_client;
+		this.client = client;
 	}
-	public int getId_Revue() {
+	public Revue getRevue() {
 
-		return id_Revue;
+		return revue;
 	}
-	public void setId_Revue(int id_Revue) {
+	public void setId_Revue(Revue Revue) {
 
-		this.id_Revue = id_Revue;
+		this.revue = revue;
 	}
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(date_deb, date_fin, id_Revue, id_abonnement, id_client);
+		return Objects.hash(date_deb, date_fin, revue, id_abonnement, client);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -73,12 +73,12 @@ public class Abonnement {
 			return false;
 		Abonnement other = (Abonnement) obj;
 		return Objects.equals(date_deb, other.date_deb) && Objects.equals(date_fin, other.date_fin)
-				&& id_Revue == other.id_Revue && id_abonnement == other.id_abonnement && id_client == other.id_client;
+				&& revue == other.revue && id_abonnement == other.id_abonnement && client == other.client;
 	}
 	@Override
 	public String toString() {
 		return "Abonnement [id_abonnement=" + id_abonnement + ", date_deb=" + date_deb + ", date_fin=" + date_fin
-				+ ", id_client=" + id_client + ", id_Revue=" + id_Revue + "]";
+				+ ", id_client=" + client + ", id_Revue=" + revue + "]";
 	}
 	
 }
