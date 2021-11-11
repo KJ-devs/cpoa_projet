@@ -7,10 +7,10 @@ import java.util.Date;
 import static java.util.Date.from;
 
 public class ConversionDate {
-    public static Date DateToLocalDate(LocalDate date) {
+    public static Date LocalDateTodate(LocalDate date) {
         return from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
-    public static LocalDate LocalDateToDate(Date date) {
+    public static LocalDate DateToLocalDate(Date date) {
         return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 }

@@ -71,11 +71,12 @@ public class ControlClient  implements Initializable {
         columnPrenomClient.setCellValueFactory(new PropertyValueFactory<Client, String>("Prenom"));
         columnAdresseClient.setCellValueFactory(new PropertyValueFactory<Client, String>("Adresse"));
         refreshTableClient();
+        selectClientPutIntoTextField();
     }
     private void refreshTableClient() {
         tableViewClient.getItems().clear();
         this.tableViewClient.getItems().addAll(dao.getClientIDAO().getAll());
-
+        selectClientPutIntoTextField();
     }
     private boolean verificationClient() {
 
@@ -149,31 +150,24 @@ public class ControlClient  implements Initializable {
         if (verificationClient()) {
             labelVerifClient.setText("Creation reussie");
             Client client = new Client(txt_NomClient.getText(), txt_PrenomClient.getText(),txt_NoRueClient.getText(), txt_VoieClient.getText(), txt_CodePostalClient.getText(), txt_VilleClient.getText(), txt_PaysClient.getText(),0);
-            normalizePays(client);
-            normalizeVille(client);
-            normalizeCodePostal(client);
-            normalizeVoie(client);
-            normalizeCodePostal(client);
+            normalize(client);
             dao.getClientIDAO().create(client);
             refreshTableClient();
+            resetClientInput();
         }
     }
 
 
 
-    public void modifierSelectedClient(ActionEvent actionEvent) {
+    public void modifierSelectedClient() {
         if (verificationClient()) {
             labelVerifClient.setText("Modification reussie");
             int index = tableViewClient.getSelectionModel().getSelectedIndex();
             Client client = new Client(txt_NomClient.getText(), txt_PrenomClient.getText(), txt_NoRueClient.getText(), txt_VoieClient.getText(), txt_CodePostalClient.getText(), txt_VilleClient.getText(), txt_PaysClient.getText(), columnNumClient.getCellData(index));
-            normalizePays(client);
-            normalizeVille(client);
-            normalizeCodePostal(client);
-            normalizeVoie(client);
-            normalizeCodePostal(client);
+            normalize(client);
             dao.getClientIDAO().update(client);
             refreshTableClient();
-
+            resetClientInput();
         }
 
     }
@@ -214,11 +208,7 @@ public class ControlClient  implements Initializable {
                 while((line =reader.readLine()) != null) {
                     String[] row = line.split(";");
                     Client client = new Client(row[0],row[1],row[2],row[3],row[4],row[5],row[6],Integer.parseInt(row[7]));
-                    normalizePays(client);
-                    normalizeVille(client);
-                    normalizeCodePostal(client);
-                    normalizeVoie(client);
-                    normalizeCodePostal(client);
+                    normalize(client);
                     dao.getClientIDAO().create(client);
                 }
             } catch (Exception e) {
@@ -230,6 +220,15 @@ public class ControlClient  implements Initializable {
         }
     }
     // PERMET D'ACCEDER AUX DIFFERENTES PAGES
+    public void resetClientInput() {
+        txt_NomClient.setText(null);
+        txt_PrenomClient.setText(null);
+        txt_NoRueClient.setText(null);
+        txt_VoieClient.setText(null);
+        txt_VilleClient.setText(null);
+        txt_PaysClient.setText(null);
+        txt_CodePostalClient.setText(null);
+    }
     @FXML
     void goToPageAbonnement() throws IOException {
         root = FXMLLoader.load(getClass().getResource("../vue/FenetreAbonnement.fxml"));

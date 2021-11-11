@@ -84,7 +84,7 @@
    <bottom>
       <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tableViewPeriodicite" onMouseClicked="#selectPeriodicitePutIntoTextField" prefHeight="472.0" prefWidth="480.0">
+            <TableView fx:id="tableViewPeriodicite" prefHeight="472.0" prefWidth="480.0">
                <columns>
                   <TableColumn fx:id="columnIdPeriodicite" prefWidth="60.0" text="ID" />
                   <TableColumn fx:id="columnTitrePeriodicite" prefWidth="419.0" text="Libelle" />

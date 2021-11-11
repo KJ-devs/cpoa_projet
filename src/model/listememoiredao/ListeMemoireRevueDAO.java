@@ -76,7 +76,7 @@ public class ListeMemoireRevueDAO implements RevueIDAO<Revue>{
 		// Ne fonctionne que si l'objet métier est bien fait...
 		int idx = this.donnees.indexOf(new Revue(id, null,null,1, null, null));
 		if (idx == -1) {
-			throw new IllegalArgumentException("Aucun objet ne possède cet identifiant");
+			throw new IllegalArgumentException("Aucun objet ne possede cet identifiant");
 		} else {
 			return this.donnees.get(idx);
 		}

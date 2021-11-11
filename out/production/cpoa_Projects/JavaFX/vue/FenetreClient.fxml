@@ -22,7 +22,7 @@
    <bottom>
       <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tableViewClient" onMouseClicked="#selectClientPutIntoTextField" prefHeight="472.0" prefWidth="697.0">
+            <TableView fx:id="tableViewClient" prefHeight="472.0" prefWidth="697.0">
                <columns>
                   <TableColumn fx:id="columnNumClient" prefWidth="62.0" text="Numéro" />
                   <TableColumn fx:id="columnNomClient" prefWidth="96.0" text="Nom" />

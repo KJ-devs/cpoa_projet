@@ -35,7 +35,6 @@ public class MySqlClientDAO implements ClientIDAO<Client> {
     public boolean create(Client objet) {
         try{
 
-
             PreparedStatement requete = Connect.prepareStatement("insert into Client (nom,prenom, no_rue,voie,code_postal,ville,pays) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             requete.setString(1,objet.getNom());
             requete.setString(2,objet.getPrenom());

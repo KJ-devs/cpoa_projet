@@ -9,15 +9,18 @@ public class ProcessAdresse{
 		if (adresse.getPays() != null) {
 			normalizePays(adresse);
 		}
-		else if(adresse.getVille() != null) {
+		 if(adresse.getVille() != null) {
 			normalizeVille(adresse);
-		} else if (adresse.getCode_postal() != null) {
-			normalizeCodePostal(adresse);
+		}
+		 if (adresse.getCode_postal() != null) {
+			 normalizeCodePostal(adresse);
 
-		}else if (adresse.getVoie() != null) {
+		 }
+		 if (adresse.getVoie() != null) {
 			normalizeVoie(adresse);
 
-		} else if (adresse.getNo_rue() != null) {
+		}
+		 if (adresse.getNo_rue() != null) {
 			normalizeNo_rue(adresse);
 		}
 		return adresse;

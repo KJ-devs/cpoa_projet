@@ -35,6 +35,7 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 	    public boolean create(Abonnement objet) {
 			try {
 				PreparedStatement requete = Connect.prepareStatement("insert into Abonnement (date_debut,date_fin,id_client,id_revue) values (?,?,?,?)");
+				// conversion des dates
 				long timeInMilliSeconds = objet.getDate_deb().getTime();
 				java.sql.Date date_deb = new java.sql.Date(timeInMilliSeconds);
 				timeInMilliSeconds = objet.getDate_fin().getTime();
@@ -60,14 +61,13 @@ public class MySqlAbonnementDAO implements AbonnementIDAO<Abonnement>{
 
 					long timeInMilliSeconds = objet.getDate_deb().getTime();
 					java.sql.Date date_deb = new java.sql.Date(timeInMilliSeconds);
-					requete.setDate(2, date_deb);
-
 					timeInMilliSeconds = objet.getDate_fin().getTime();
 					java.sql.Date date_fin = new java.sql.Date(timeInMilliSeconds);
-					requete.setDate(1, date_fin);
 
-					requete.setInt(3,objet.getRevue().getId_revue());
-					requete.setInt(4,objet.getClient().getId());
+					requete.setDate(1, date_deb);
+					requete.setDate(2, date_fin);
+					requete.setInt(3,objet.getClient().getId());
+					requete.setInt(4,objet.getRevue().getId_revue());
 					requete.setInt(5,objet.getId_abonnement());
 					requete.executeUpdate();
 

@@ -89,12 +89,13 @@
    <bottom>
       <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tableViewAbonnement" onMouseClicked="#selectAbonnementPutIntoTextField" prefHeight="472.0" prefWidth="697.0">
+            <TableView fx:id="tableViewAbonnement" prefHeight="472.0" prefWidth="697.0">
                <columns>
-                  <TableColumn fx:id="columnClientAbonnement" prefWidth="108.0" text="Client" />
-                  <TableColumn fx:id="columnRevueAbonnement" prefWidth="111.0" text="Revue" />
-                  <TableColumn fx:id="columnDateDebAbonnement" prefWidth="235.0" text="Date debut d'abonnement" />
-                  <TableColumn fx:id="columnDateFinAbonnement" prefWidth="242.0" text="Date fin d'abonnement" />
+                  <TableColumn fx:id="ColumnIdAbonnement" prefWidth="71.0" text="ID" />
+                  <TableColumn fx:id="columnClientAbonnement" prefWidth="130.0" text="Client" />
+                  <TableColumn fx:id="columnRevueAbonnement" prefWidth="126.0" text="Revue" />
+                  <TableColumn fx:id="columnDateDebAbonnement" prefWidth="204.0" text="Date debut d'abonnement" />
+                  <TableColumn fx:id="columnDateFinAbonnement" prefWidth="165.0" text="Date fin d'abonnement" />
                </columns>
             </TableView>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">

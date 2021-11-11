@@ -131,7 +131,7 @@
     <bottom>
         <FlowPane prefHeight="471.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="tableViewRevue" onMouseClicked="#selectRevuePutIntoTextField" prefHeight="472.0" prefWidth="697.0">
+                <TableView fx:id="tableViewRevue" prefHeight="472.0" prefWidth="697.0">
                     <columns>
                   <TableColumn fx:id="columnIdRevue" prefWidth="60.0" text="ID" />
                         <TableColumn fx:id="columnTitreRevue" prefWidth="100.0" text="Titre" />

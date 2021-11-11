@@ -49,6 +49,8 @@ public class ControlAbonnement implements Initializable {
     @FXML
     private TableView<Abonnement> tableViewAbonnement;
 
+    @FXML
+    private TableColumn<Abonnement, Integer> ColumnIdAbonnement;
 
     @FXML
     private DatePicker dateDebAbo;
@@ -70,21 +72,13 @@ public class ControlAbonnement implements Initializable {
 
         this.choiceBoxClient.setItems(FXCollections.observableArrayList(dao.getClientIDAO().getAll()));
         this.choiceBoxRevue.setItems(FXCollections.observableArrayList(dao.getRevueIDAO().getAll()));
+        ColumnIdAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement,Integer>("id_abonnement"));
         columnClientAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Client>("client"));
         columnRevueAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Revue>("Revue"));
         columnDateDebAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Date>("Date_deb"));
         columnDateFinAbonnement.setCellValueFactory(new PropertyValueFactory<Abonnement, Date>("Date_fin"));
         refreshTableAbonnement();
-        tableViewAbonnement.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
-            Abonnement abonnement = tableViewAbonnement.getSelectionModel().getSelectedItem();
-
-            choiceBoxRevue.getSelectionModel().select((Revue) dao.getRevueIDAO().getById(abonnement.getRevue().getId_revue()));
-            choiceBoxClient.getSelectionModel().select((Client) dao.getClientIDAO().getById(abonnement.getClient().getId()));
-
-
-        });
-
-
+        selectAbonnementPutIntoDatePicker();
     }
 
     private void refreshTableAbonnement() {
@@ -92,9 +86,7 @@ public class ControlAbonnement implements Initializable {
         tableViewAbonnement.getItems().clear();
         this.tableViewAbonnement.getItems().addAll(dao.getAbonnementIDAO().getAll());
     }
-    public void selectAbonnementPutIntoTextField(ActionEvent actionEvent) {
 
-    }
     public boolean verifAbonnement(LocalDate dateDeb,LocalDate dateFin){
 
         String messageErreur = "";
@@ -129,29 +121,28 @@ public class ControlAbonnement implements Initializable {
 
 
         if(verifAbonnement(dateDebAbo.getValue(),dateFinAbo.getValue())) {
-
-            Date dateDeb =  ConversionDate.DateToLocalDate(dateDebAbo.getValue());
-            Date dateFin =  ConversionDate.DateToLocalDate(dateFinAbo.getValue());
             labelVerifAbonnement.setText("Creation reussis");
+            Date dateDeb =  ConversionDate.LocalDateTodate(dateDebAbo.getValue());
+            Date dateFin =  ConversionDate.LocalDateTodate(dateFinAbo.getValue());
             Abonnement abonnement = new Abonnement(0, dateDeb, dateFin,choiceBoxClient.getValue(), choiceBoxRevue.getValue());
             dao.getAbonnementIDAO().create(abonnement);
             refreshTableAbonnement();
+            resetAbonnementInput();
         }
 
     }
 
     public void modifierSelectedAbonnement() {
-
-
         if(verifAbonnement(dateDebAbo.getValue(),dateFinAbo.getValue())) {
-
-            Date dateDeb =  ConversionDate.DateToLocalDate(dateDebAbo.getValue());
-            Date dateFin =  ConversionDate.DateToLocalDate(dateFinAbo.getValue());
-
             labelVerifAbonnement.setText("Modification reussie");
-            Abonnement abonnement = new Abonnement(0, dateDeb, dateFin,choiceBoxClient.getValue(),choiceBoxRevue.getValue());
+            Date dateDeb =  ConversionDate.LocalDateTodate(dateDebAbo.getValue());
+            Date dateFin =  ConversionDate.LocalDateTodate(dateFinAbo.getValue());
+            int index = tableViewAbonnement.getSelectionModel().getSelectedIndex();
+
+            Abonnement abonnement = new Abonnement(ColumnIdAbonnement.getCellData(index), dateDeb, dateFin,choiceBoxClient.getValue(),choiceBoxRevue.getValue());
             dao.getAbonnementIDAO().update(abonnement);
             refreshTableAbonnement();
+            resetAbonnementInput();
         }
     }
 
@@ -159,6 +150,22 @@ public class ControlAbonnement implements Initializable {
         labelVerifAbonnement.setText("Suppression reussie");
         dao.getAbonnementIDAO().delete(tableViewAbonnement.getSelectionModel().getSelectedItem());
         refreshTableAbonnement();
+    }
+    public void selectAbonnementPutIntoDatePicker(){
+        tableViewAbonnement.getSelectionModel().selectedIndexProperty().addListener((v, oldValue, newValue) -> {
+            Abonnement abonnement = tableViewAbonnement.getSelectionModel().getSelectedItem();//classe du model
+            if (tableViewAbonnement.isFocused() == true) {
+                choiceBoxRevue.getSelectionModel().select(abonnement.getRevue());
+                choiceBoxClient.getSelectionModel().select((abonnement.getClient()));
+
+            }
+        });
+    }
+    public void resetAbonnementInput() {
+        choiceBoxRevue.setValue(null);
+        choiceBoxClient.setValue(null);
+        dateDebAbo.setValue(null);
+        dateFinAbo.setValue(null);
     }
     // PERMET D'ACCEDER AUX DIFFERENTES PAGES
     @FXML

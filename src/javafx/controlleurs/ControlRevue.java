@@ -69,7 +69,7 @@ public class ControlRevue implements Initializable {
         columnPeriodiciteRevue.setCellValueFactory(new PropertyValueFactory<Revue,Periodicite>("Periodicite"));
         this.choiceBoxPerio.setItems(FXCollections.observableArrayList(dao.getPeriodiciteIDAO().getAll()));
         refreshTableRevue();
-
+        selectRevuePutIntoTextField();
     }
 
     private void refreshTableRevue() {
@@ -116,10 +116,10 @@ public class ControlRevue implements Initializable {
     public void creationRevue()  {
         if (verificationRevue()) {
             labelVerifRevue.setText("Creation reussie");
-
             Revue revue = new Revue(0,txt_TitreRevue.getText(),txt_DescriptionRevue.getText(),Float.parseFloat(txt_TarifRevue.getText()),"",choiceBoxPerio.getValue());
             dao.getRevueIDAO().create(revue);
             refreshTableRevue();
+            resetRevueInput();
         }
     }
 
@@ -131,6 +131,7 @@ public class ControlRevue implements Initializable {
             Revue revue = new Revue(columnIdRevue.getCellData(index), txt_TitreRevue.getText(), txt_DescriptionRevue.getText(), Float.parseFloat(txt_TarifRevue.getText()), null,choiceBoxPerio.getValue());
             dao.getRevueIDAO().update(revue);
             refreshTableRevue();
+            resetRevueInput();
         }
 
 
@@ -164,7 +165,12 @@ public class ControlRevue implements Initializable {
              FileInputStream is = new FileInputStream(new File(absolutePath));
         }
     }
-
+    public void resetRevueInput() {
+        txt_TitreRevue.setText(null);
+        txt_TarifRevue.setText(null);
+        txt_DescriptionRevue.setText(null);
+        choiceBoxPerio.setValue(null);
+    }
     // PERMET DACCEDER AUX DIFFERENTES PAGES
     @FXML
     void goToPageAbonnement() throws IOException {

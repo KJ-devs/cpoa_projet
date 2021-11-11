@@ -38,6 +38,7 @@ public class ControlPeriodicite implements Initializable {
         columnIdPeriodicite.setCellValueFactory(new PropertyValueFactory<Periodicite, Integer>("Id"));
         columnTitrePeriodicite.setCellValueFactory(new PropertyValueFactory<Periodicite, String>("Libelle"));
         refreshTablePeriodicite();
+        selectPeriodicitePutIntoTextField();
     }
     private void refreshTablePeriodicite() {
 
@@ -73,6 +74,7 @@ public class ControlPeriodicite implements Initializable {
             Periodicite periodicite = new Periodicite(0,txt_LibellePeriodicite.getText());
             dao.getPeriodiciteIDAO().create(periodicite);
             refreshTablePeriodicite();
+            resetPeriodiciteInput();
         }
     }    @FXML
     void modifierSelectedPeriodicite() {
@@ -82,6 +84,7 @@ public class ControlPeriodicite implements Initializable {
             Periodicite periodicite = new Periodicite(columnIdPeriodicite.getCellData(index),txt_LibellePeriodicite.getText());
             dao.getPeriodiciteIDAO().update(periodicite);
             refreshTablePeriodicite();
+            resetPeriodiciteInput();
         }
 
     }
@@ -101,6 +104,9 @@ public class ControlPeriodicite implements Initializable {
                 txt_LibellePeriodicite.setText(periodicite.getLibelle());
             }
         });
+    }
+    public void resetPeriodiciteInput() {
+        txt_LibellePeriodicite.setText(null);
     }
 
     // Permet d'acceder aux differentes pages
