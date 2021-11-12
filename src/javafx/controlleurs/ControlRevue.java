@@ -128,7 +128,7 @@ public class ControlRevue implements Initializable {
         int index = tableViewRevue.getSelectionModel().getSelectedIndex();
         if (verificationRevue()) {
             labelVerifRevue.setText("Modification reussie");
-            Revue revue = new Revue(columnIdRevue.getCellData(index), txt_TitreRevue.getText(), txt_DescriptionRevue.getText(), Float.parseFloat(txt_TarifRevue.getText()), null,choiceBoxPerio.getValue());
+            Revue revue = new Revue(columnIdRevue.getCellData(index), txt_TitreRevue.getText(), txt_DescriptionRevue.getText(), Float.parseFloat(txt_TarifRevue.getText()),"",choiceBoxPerio.getValue());
             dao.getRevueIDAO().update(revue);
             refreshTableRevue();
             resetRevueInput();
